@@ -16,7 +16,10 @@ knitr::opts_chunk$set(
 # flipped
 
 
-The goal of flipped is to explore models for coin flippings beyond the standard binomial.
+The goal of flipped is to explore models for coin flippings beyond the standard binomial. 
+
+Website: https://bomeara.github.io/flipped/
+Source: https://github.com/bomeara/flipped/
 
 ## Installation
 
