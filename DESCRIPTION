@@ -1,0 +1,20 @@
+Package: flipped
+Title: Applies various odd models for coin flipping
+Version: 0.0.1
+Authors@R: 
+    person(given = "Brian",
+           family = "O'Meara",
+           role = c("aut", "cre"),
+           email = "omeara.brian@gmail.com",
+           comment = c(ORCID = "0000-0002-0337-5997"))
+Description: Everyone uses the binomial as the distribution for coin flipping: this assumes for a given coin, the probability of landing heads is constant for all time. It is likely a very sound assumption. However, even for this simple example other models may be possible. This package contains such models.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    stats
