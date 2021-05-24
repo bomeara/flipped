@@ -128,10 +128,30 @@
       <tr>
         
         <td>
+          <p><code><a href="dcoin_exponential.html">dcoin_exponential()</a></code> </p>
+        </td>
+        <td><p>Compute probability of observations given an exponential model
+The idea is that the coin before handling has 100% chance of heads, but each time it is picked up that probability will decrease (maybe it is bent by the statistician's mighty thumb). After halflife times handling it, the probability of heads is 50%, and it keeps dropping from there.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="dcoin_linear.html">dcoin_linear()</a></code> </p>
         </td>
         <td><p>Compute probability of observations given linear change model
 This is essentially stats::dbinom() but allowing for the probability of heads to linearly change from the starting value. By default it increases by 10% per flip, but this can be set to other values.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_possibilities.html">get_possibilities()</a></code> </p>
+        </td>
+        <td><p>Exhauatively get all possible sets of outcomes that result in a specified number of heads out of a certain number of flips</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prob_heads_exponential.html">prob_heads_exponential()</a></code> </p>
+        </td>
+        <td><p>Compute the probability of heads with each flip given an exponential model
+The model assumes 100% chance of heads before a coin is picked up and it drops exponentially each time the coin is handled.</p></td>
       </tr><tr>
         
         <td>

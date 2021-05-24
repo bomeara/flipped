@@ -46,3 +46,59 @@ prob_heads_linear <- function(nflips, preflip_prob=0.5, slope=0.1) {
   probabilities <- slope*sequence(nflips)/nflips + preflip_prob
   return(probabilities)
 }
+
+#' Compute the probability of heads with each flip given an exponential model
+#' The model assumes 100% chance of heads before a coin is picked up and it drops exponentially each time the coin is handled.
+#' @param nflips Total number of flips (heads and tails)
+#' @param halflife How many flips to get to 50% heads
+#' @return Vector of probability of heads for the first flip, second flip, etc.
+#' @export
+prob_heads_exponential <- function(nflips, halflife) {
+  lambda <- log(2)/halflife
+  probabilities <- 1*exp(-lambda*seq(from=1, to=nflips, by=1)) #by not starting at exp(-lambda * 0), it allows for something that has no heads on the first flip to have positive probability
+  return(probabilities)
+}
+
+#' Exhauatively get all possible sets of outcomes that result in a specified number of heads out of a certain number of flips
+#' 
+#' This grows very large with the number of flips. It will throw an error if you try too many flips.
+#' @param nheads Number of heads
+#' @param nflips Total number of flips (heads and tails)
+#' @return data.frame with each potential trial as a row. 1=heads, 0=tails.
+#' @export
+get_possibilities <- function(nheads, nflips) {
+ if(nflips>25) {
+    stop("Too many flips for the expand.grid silly approach to work")
+ } 
+  possibilities <- expand.grid(rep(list(c(0,1)),nflips))
+  possibilities <- possibilities[rowSums(possibilities)==nheads,]
+  return(possibilities)
+}
+
+#' Compute probability of observations given an exponential model
+#' The idea is that the coin before handling has 100% chance of heads, but each time it is picked up that probability will decrease (maybe it is bent by the statistician's mighty thumb). After halflife times handling it, the probability of heads is 50%, and it keeps dropping from there.
+#' @param nheads Number of heads
+#' @param nflips Total number of flips (heads and tails)
+#' @param halflife How many flips to get to 50% heads
+#' @param log If TRUE return log transformed probabilities.
+#' @param possibilities All possible sequences of flips that lead to the observed number of heads
+#' @return The likelihood of the data (or log likelihood if log=TRUE)
+#' @export
+dcoin_exponential <- function(nheads, nflips, halflife, log=FALSE, possibilities=get_possibilities(nheads,nflips)) {
+  pheads <- prob_heads_exponential(nflips, halflife)
+  ptails <- 1-pheads
+  prob_matrix <- rbind(ptails, pheads) # heads = 1, tails =0, so when we offset, tails is first row, heads second
+  
+  likelihood <- 0
+  for (i in sequence(nrow(possibilities))) {
+    positions <- as.numeric(possibilities[i,]+1)
+    local_prob <- 1
+    for (j in sequence(ncol(possibilities))) {
+      local_prob <- local_prob * unname(prob_matrix[positions[j],j])
+    }
+    likelihood <- likelihood + local_prob
+  }
+  print(c(halflife, likelihood))
+  return(ifelse(log, log(likelihood), likelihood))
+}
+
