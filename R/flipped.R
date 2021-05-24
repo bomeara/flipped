@@ -102,3 +102,6 @@ dcoin_exponential <- function(nheads, nflips, halflife, log=FALSE, possibilities
   return(ifelse(log, log(likelihood), likelihood))
 }
 
+fit_many_models <- function(nheads, nflips, slopes = c(0.1, -0.05), starting_heads_range=c(0,1), number_of_steps=100, do_exponential=TRUE) {
+		
+}
