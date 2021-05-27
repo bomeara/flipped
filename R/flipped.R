@@ -59,7 +59,7 @@ prob_heads_exponential <- function(nflips, halflife) {
   return(probabilities)
 }
 
-#' Exhauatively get all possible sets of outcomes that result in a specified number of heads out of a certain number of flips
+#' Exhaustively get all possible sets of outcomes that result in a specified number of heads out of a certain number of flips
 #' 
 #' This grows very large with the number of flips. It will throw an error if you try too many flips.
 #' @param nheads Number of heads
@@ -98,10 +98,52 @@ dcoin_exponential <- function(nheads, nflips, halflife, log=FALSE, possibilities
     }
     likelihood <- likelihood + local_prob
   }
-  print(c(halflife, likelihood))
+  #print(c(halflife, likelihood))
   return(ifelse(log, log(likelihood), likelihood))
 }
 
-fit_many_models <- function(nheads, nflips, slopes = c(0.1, -0.05), starting_heads_range=c(0,1), number_of_steps=100, do_exponential=TRUE) {
-		
+#' Computes the likelihood for a range of values using a linear coin model 
+#' @inheritParams prob_heads_linear
+#' @param param_range Range of parameters to try
+#' @param number_of_steps How many values of the parameter to try
+#' @export
+#' @return vector of likelihoods
+#' @examples
+#' nheads <- 8
+#' nflips <- 10
+#' linear_results <- profile_linear_model(nheads, nflips)
+#' plot(x=linear_results$preflip_prob, y=linear_results$likelihood, type="l")
+#' dbinom_proportions <- seq(from=0, to=1, length.out=1000)
+#' lines(dbinom_proportions, dbinom(nheads, nflips, dbinom_proportions), col="red")
+#' best_param <- linear_results$preflip_prob[which.max(linear_results$likelihood, na.rm=TRUE)]
+#' print(best_param)
+profile_linear_model <- function(nheads, nflips, param_range=c(0,1), slope=0.1, number_of_steps=1000,log=FALSE, outside_bounds_is_NA=TRUE) {
+	starting_prob_heads <- seq(from=min(param_range), to=max(param_range), length.out=number_of_steps)
+	likelihoods <- rep(NA, number_of_steps)
+	for (i in sequence(number_of_steps)) {
+		likelihoods[i] <- dcoin_linear(nheads=nheads, nflips=nflips, preflip_prob=starting_prob_heads[i], slope=slope, log=log, outside_bounds_is_NA=outside_bounds_is_NA)
+	}
+	return(data.frame(preflip_prob=starting_prob_heads, likelihood=likelihoods))
+}
+
+#' Computes the likelihood for a range of values using an exponential coin model 
+#' @inheritParams prob_heads_linear
+#' @param param_range Range of parameters to try
+#' @param number_of_steps How many values of the parameter to try
+#' @export
+#' @return vector of likelihoods
+#' @examples
+#' nheads <- 8
+#' nflips <- 10
+#' exp_results <- profile_exponential_model(nheads, nflips)
+#' plot(x=exp_results$preflip_prob, y=exp_results$likelihood, type="l")
+#' best_param <- exp_results$halflife[which.max(exp_results$likelihood, na.rm=TRUE)]
+#' print(best_param)
+profile_exponential_model <- function(nheads, nflips, param_range=c(0,nflips*10), number_of_steps=1000,log=FALSE) {
+	halflives <- seq(from=min(param_range), to=max(param_range), length.out=number_of_steps)
+	likelihoods <- rep(NA, number_of_steps)
+	for (i in sequence(number_of_steps)) {
+		likelihoods[i] <- dcoin_exponential(nheads=nheads, nflips=nflips, halflife=halflives[i], log=log)
+	}
+	return(data.frame(halflife=halflives, likelihood=likelihoods))
 }
