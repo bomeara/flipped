@@ -53,13 +53,15 @@ One set of models could have a linear slope: every time a coin is handled, its p
 ```{r linearheads, include=FALSE}
 library(ggplot2)
 nflips <- 10
-probs <- data.frame(flip=rep(sequence(nflips),3), prob_heads = c(prob_heads_linear(nflips, slope=0), prob_heads_linear(nflips, slope=0.10), prob_heads_linear(nflips, slope=-0.05)), slope=as.factor(c(rep(0, nflips), rep(0.10, nflips), rep(-0.05,nflips))))
-print(ggplot(probs, aes(x=flip, y=prob_heads, colour=slope, group=slope)) + geom_line() + geom_point() + ylab("Probability of heads") + scale_x_continuous(name="Flip", breaks=sequence(nflips)) + scale_colour_brewer(palette = "Dark2") )
+probs <- data.frame(flip=rep(seq(from=0, to=nflips, by=1),3), prob_heads = c(0.5, prob_heads_linear(nflips, slope=0), 0.5, prob_heads_linear(nflips, slope=0.10), 0.5, prob_heads_linear(nflips, slope=-0.05)), slope=as.factor(c(rep(0, 1+nflips), rep(0.10, 1+nflips), rep(-0.05,1+nflips))))
+print(ggplot(probs, aes(x=flip, y=prob_heads, colour=slope, group=slope)) + geom_line() + geom_point() + ylab("Probability of heads") + scale_x_continuous(name="Flip", breaks=seq(from=0, to=nflips, by=1)) + 
+scale_colour_brewer(palette = "Dark2") )
 ```
 
 We can calculate the likelihoood of the observed data of 8 heads from 10 flips for all these models, changing the probability of heads for a coin before it is handled:
 
 ```{r linearlikelihoods}
+nheads <- 8
 flat <- profile_linear_model(nheads, nflips, slope=0.0)
 increasing <- profile_linear_model(nheads, nflips, slope=0.10)
 decreasing <- profile_linear_model(nheads, nflips, slope=-0.05)
@@ -75,3 +77,5 @@ print(round(flat[which.max(flat$likelihood),],2))
 print(round(increasing[which.max(increasing$likelihood),],2))
 print(round(decreasing[which.max(decreasing$likelihood),],2))
 ```
+
+This shows that these three models cannot be distinguished with likelihood -- they're congruent. So we can't tell, with simple coin flipping, from just the final tally of heads and tails whether the probability of heads was increasing or decreasing with flips. 

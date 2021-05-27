@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • flipped</title>
+<title>Compute the probability of heads with each flip given a multiplier model
+The model assumes 50% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101% of the probability the previous flip with a multiplier of 1.01. — prob_heads_multiplicative • flipped</title>
 
 
 <!-- jquery -->
@@ -39,7 +40,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Compute the probability of heads with each flip given a multiplier model
+The model assumes 50% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101% of the probability the previous flip with a multiplier of 1.01. — prob_heads_multiplicative" />
+<meta property="og:description" content="Compute the probability of heads with each flip given a multiplier model
+The model assumes 50% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101% of the probability the previous flip with a multiplier of 1.01." />
 
 
 
@@ -58,7 +62,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -100,88 +104,43 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Compute the probability of heads with each flip given a multiplier model
+The model assumes 50% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101% of the probability the previous flip with a multiplier of 1.01.</h1>
+    
+    <div class="hidden name"><code>prob_heads_multiplicative.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Compute the probability of heads with each flip given a multiplier model
+The model assumes 50% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101% of the probability the previous flip with a multiplier of 1.01.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>prob_heads_multiplicative</span><span class='op'>(</span><span class='va'>nflips</span>, <span class='va'>multiplier</span>, outside_bounds_is_NA <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="dcoin_exponential_decay.html">dcoin_exponential_decay()</a></code> </p>
-        </td>
-        <td><p>Compute probability of observations given an exponential decay model
-The idea is that the coin before handling has 100% chance of heads, but each time it is picked up that probability will decrease (maybe it is bent by the statistician's mighty thumb). After halflife times handling it, the probability of heads is 50%, and it keeps dropping from there.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dcoin_linear.html">dcoin_linear()</a></code> </p>
-        </td>
-        <td><p>Compute probability of observations given linear change model
-This is essentially stats::dbinom() but allowing for the probability of heads to linearly change from the starting value. By default it increases by 10% per flip, but this can be set to other values.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_possibilities.html">get_possibilities()</a></code> </p>
-        </td>
-        <td><p>Exhaustively get all possible sets of outcomes that result in a specified number of heads out of a certain number of flips</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="prob_heads_exponential_decay.html">prob_heads_exponential_decay()</a></code> </p>
-        </td>
-        <td><p>Compute the probability of heads with each flip given an exponential model
-The model assumes 100% chance of heads before a coin is picked up and it drops exponentially each time the coin is handled.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="prob_heads_linear.html">prob_heads_linear()</a></code> </p>
-        </td>
-        <td><p>Compute the probability of heads with each flip given a linear change model.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="prob_heads_multiplicative.html">prob_heads_multiplicative()</a></code> </p>
-        </td>
-        <td><p>Compute the probability of heads with each flip given a multiplier model
-The model assumes 50% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101% of the probability the previous flip with a multiplier of 1.01.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="profile_exponential_decay_model.html">profile_exponential_decay_model()</a></code> </p>
-        </td>
-        <td><p>Computes the likelihood for a range of values using an exponential coin model</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="profile_linear_model.html">profile_linear_model()</a></code> </p>
-        </td>
-        <td><p>Computes the likelihood for a range of values using a linear coin model</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>nflips</th>
+      <td><p>Total number of flips (heads and tails)</p></td>
+    </tr>
+    <tr>
+      <th>multiplier</th>
+      <td><p>Factor to multiply the previous probability by</p></td>
+    </tr>
+    <tr>
+      <th>outside_bounds_is_NA</th>
+      <td><p>If TRUE, if any probability of heads is outside the bounds of probability, the function returns NA. Otherwise, it sets the value to the nearer bound.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Vector of probability of heads for the first flip, second flip, etc.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

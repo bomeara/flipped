@@ -53,9 +53,29 @@ prob_heads_linear <- function(nflips, preflip_prob=0.5, slope=0.1) {
 #' @param halflife How many flips to get to 50% heads
 #' @return Vector of probability of heads for the first flip, second flip, etc.
 #' @export
-prob_heads_exponential <- function(nflips, halflife) {
+prob_heads_exponential_decay <- function(nflips, halflife) {
   lambda <- log(2)/halflife
   probabilities <- 1*exp(-lambda*seq(from=1, to=nflips, by=1)) #by not starting at exp(-lambda * 0), it allows for something that has no heads on the first flip to have positive probability
+  return(probabilities)
+}
+
+#' Compute the probability of heads with each flip given a multiplier model
+#' The model assumes 50% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101% of the probability the previous flip with a multiplier of 1.01. 
+#' @param nflips Total number of flips (heads and tails)
+#' @param multiplier Factor to multiply the previous probability by
+#' @param outside_bounds_is_NA If TRUE, if any probability of heads is outside the bounds of probability, the function returns NA. Otherwise, it sets the value to the nearer bound.
+#' @return Vector of probability of heads for the first flip, second flip, etc.
+#' @export
+prob_heads_multiplicative <- function(nflips, multiplier, outside_bounds_is_NA=TRUE) {
+  probabilities <- 0.5*(multiplier^(sequence(nflips)))
+	if(any(probabilities>1 | probabilities<0)) {
+		if(outside_bounds_is_NA) {
+			return(NA)
+		} else {
+			probabilities[probabilities>1] <- 1
+			probabilities[probabilities<0] <- 0
+		}
+	}
   return(probabilities)
 }
 
@@ -75,7 +95,7 @@ get_possibilities <- function(nheads, nflips) {
   return(possibilities)
 }
 
-#' Compute probability of observations given an exponential model
+#' Compute probability of observations given an exponential decay model
 #' The idea is that the coin before handling has 100% chance of heads, but each time it is picked up that probability will decrease (maybe it is bent by the statistician's mighty thumb). After halflife times handling it, the probability of heads is 50%, and it keeps dropping from there.
 #' @param nheads Number of heads
 #' @param nflips Total number of flips (heads and tails)
@@ -84,8 +104,8 @@ get_possibilities <- function(nheads, nflips) {
 #' @param possibilities All possible sequences of flips that lead to the observed number of heads
 #' @return The likelihood of the data (or log likelihood if log=TRUE)
 #' @export
-dcoin_exponential <- function(nheads, nflips, halflife, log=FALSE, possibilities=get_possibilities(nheads,nflips)) {
-  pheads <- prob_heads_exponential(nflips, halflife)
+dcoin_exponential_decay <- function(nheads, nflips, halflife, log=FALSE, possibilities=get_possibilities(nheads,nflips)) {
+  pheads <- prob_heads_exponential_decay(nflips, halflife)
   ptails <- 1-pheads
   prob_matrix <- rbind(ptails, pheads) # heads = 1, tails =0, so when we offset, tails is first row, heads second
   
@@ -135,15 +155,15 @@ profile_linear_model <- function(nheads, nflips, param_range=c(0,1), slope=0.1, 
 #' @examples
 #' nheads <- 8
 #' nflips <- 10
-#' exp_results <- profile_exponential_model(nheads, nflips)
+#' exp_results <- profile_exponential_decay_model(nheads, nflips)
 #' plot(x=exp_results$preflip_prob, y=exp_results$likelihood, type="l")
 #' best_param <- exp_results$halflife[which.max(exp_results$likelihood, na.rm=TRUE)]
 #' print(best_param)
-profile_exponential_model <- function(nheads, nflips, param_range=c(0,nflips*10), number_of_steps=1000,log=FALSE) {
+profile_exponential_decay_model <- function(nheads, nflips, param_range=c(0,nflips*10), number_of_steps=1000,log=FALSE) {
 	halflives <- seq(from=min(param_range), to=max(param_range), length.out=number_of_steps)
 	likelihoods <- rep(NA, number_of_steps)
 	for (i in sequence(number_of_steps)) {
-		likelihoods[i] <- dcoin_exponential(nheads=nheads, nflips=nflips, halflife=halflives[i], log=log)
+		likelihoods[i] <- dcoin_exponential_decay(nheads=nheads, nflips=nflips, halflife=halflives[i], log=log)
 	}
 	return(data.frame(halflife=halflives, likelihood=likelihoods))
 }
