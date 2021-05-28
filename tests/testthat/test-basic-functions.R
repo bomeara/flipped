@@ -21,4 +21,4 @@ test_that("profiling works", {
   
   result <- profile_exponential_model(nheads, nflips)
   expect_s3_class(result, "data.frame")
-}
+})

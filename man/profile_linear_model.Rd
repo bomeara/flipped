@@ -11,7 +11,7 @@ profile_linear_model(
   slope = 0.1,
   number_of_steps = 1000,
   log = FALSE,
-  outside_bounds_is_NA = TRUE
+  outside_bounds_is_NA = FALSE
 )
 }
 \arguments{

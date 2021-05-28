@@ -11,7 +11,7 @@ dcoin_linear(
   preflip_prob = 0.5,
   slope = 0.1,
   log = FALSE,
-  outside_bounds_is_NA = TRUE
+  outside_bounds_is_NA = FALSE
 )
 }
 \arguments{

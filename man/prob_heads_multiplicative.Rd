@@ -5,7 +5,7 @@
 \title{Compute the probability of heads with each flip given a multiplier model
 The model assumes 50\% chance of heads before a coin is picked up and it changes as a percentage of the previous value each flip. i.e., the probability of heads is 101\% of the probability the previous flip with a multiplier of 1.01.}
 \usage{
-prob_heads_multiplicative(nflips, multiplier, outside_bounds_is_NA = TRUE)
+prob_heads_multiplicative(nflips, multiplier, outside_bounds_is_NA = FALSE)
 }
 \arguments{
 \item{nflips}{Total number of flips (heads and tails)}

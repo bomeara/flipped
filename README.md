@@ -65,13 +65,13 @@ flips for all these models, changing the probability of heads for a coin
 before it is handled:
 
 ``` r
+nheads <- 8
 flat <- profile_linear_model(nheads, nflips, slope=0.0)
 increasing <- profile_linear_model(nheads, nflips, slope=0.10)
 decreasing <- profile_linear_model(nheads, nflips, slope=-0.05)
 all_results <- rbind(flat, increasing, decreasing)
 all_results$slope <- as.factor(c(rep(0, nrow(flat)), rep(0.10, nrow(increasing)), rep(-0.05, nrow(decreasing))))
 print(ggplot(all_results, aes(x=preflip_prob, y=likelihood, colour=slope, group=slope)) + geom_line() + ylab("Probability of 8/10 heads") + xlab("Probability of heads before handling") + scale_colour_brewer(palette = "Dark2") )
-#> Warning: Removed 150 row(s) containing missing values (geom_path).
 ```
 
 <img src="man/figures/README-linearlikelihoods-1.png" width="100%" />
@@ -89,3 +89,31 @@ print(round(decreasing[which.max(decreasing$likelihood),],2))
 #>     preflip_prob likelihood
 #> 828         0.83        0.3
 ```
+
+This shows that these three models cannot be distinguished with
+likelihood – they’re congruent. So we can’t tell, with simple coin
+flipping, from just the final tally of heads and tails whether the
+probability of heads was increasing or decreasing with flips.
+
+We can do this with multiple kinds of models, too: all these have the
+same probability of the data within a pre-set numerical precision:
+
+``` r
+nheads=2
+nflips=10
+congruent <- find_congruent_models(nheads=nheads, nflips=nflips)
+#> [1] "Optimizing multiplicative model"
+#> [1] "Got within 2.2260848755451e-06 of the target"
+#> [1] "Optimizing exponential decay model"
+#> [1] "Got within 6.33013396881821e-05 of the target"
+#> [1] "Optimizing slope 0 model"
+#> [1] "Got within 2.22044604925031e-16 of the target"
+#> [1] "Optimizing slope 0.1 model"
+#> [1] "Got within 8.74494624170108e-06 of the target"
+#> [1] "Optimizing slope -0.05 model"
+#> [1] "Got within 7.87077862062779e-05 of the target"
+print(ggplot(congruent$probabilities_per_flip, aes(x=Flips, y=Probability_of_heads_this_flip, colour=Model, group=Model)) + geom_line() + geom_point() + ylab("Probability of heads") + scale_x_continuous(name="Flip", breaks=seq(from=0, to=nflips, by=1)) + 
+scale_colour_brewer(palette = "Dark2") )
+```
+
+<img src="man/figures/README-multiples-1.png" width="100%" />
