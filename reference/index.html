@@ -128,6 +128,12 @@
       <tr>
         
         <td>
+          <p><code><a href="d_coin_multiplicative.html">d_coin_multiplicative()</a></code> </p>
+        </td>
+        <td><p>Compute probability of observations given an exponential decay model</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="dcoin_exponential_decay.html">dcoin_exponential_decay()</a></code> </p>
         </td>
         <td><p>Compute probability of observations given an exponential decay model
@@ -135,10 +141,23 @@ The idea is that the coin before handling has 100% chance of heads, but each tim
       </tr><tr>
         
         <td>
+          <p><code><a href="dcoin_from_probability.html">dcoin_from_probability()</a></code> </p>
+        </td>
+        <td><p>Compute probability of observations given a vector of probability of heads</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="dcoin_linear.html">dcoin_linear()</a></code> </p>
         </td>
         <td><p>Compute probability of observations given linear change model
 This is essentially stats::dbinom() but allowing for the probability of heads to linearly change from the starting value. By default it increases by 10% per flip, but this can be set to other values.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="find_congruent_models.html">find_congruent_models()</a></code> </p>
+        </td>
+        <td><p>Find congruent models to a simple binomial model
+This will find the parameter values for other models that equal the likelihood for a simple binomial model. This may not be the MLE for these other models</p></td>
       </tr><tr>
         
         <td>
@@ -177,6 +196,13 @@ The model assumes 50% chance of heads before a coin is picked up and it changes 
           <p><code><a href="profile_linear_model.html">profile_linear_model()</a></code> </p>
         </td>
         <td><p>Computes the likelihood for a range of values using a linear coin model</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="try_many_vectors.html">try_many_vectors()</a></code> </p>
+        </td>
+        <td><p>Compute probability of observations across many potential vectors
+This will try (1/stepsize)^nflips possible vectors, computing the probability of the observation for each</p></td>
       </tr>
     </tbody>
     </table>

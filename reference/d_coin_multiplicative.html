@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Computes the likelihood for a range of values using a linear coin model — profile_linear_model • flipped</title>
+<title>Compute probability of observations given an exponential decay model — d_coin_multiplicative • flipped</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Computes the likelihood for a range of values using a linear coin model — profile_linear_model" />
-<meta property="og:description" content="Computes the likelihood for a range of values using a linear coin model" />
+<meta property="og:title" content="Compute probability of observations given an exponential decay model — d_coin_multiplicative" />
+<meta property="og:description" content="Compute probability of observations given an exponential decay model" />
 
 
 
@@ -103,22 +103,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Computes the likelihood for a range of values using a linear coin model</h1>
+    <h1>Compute probability of observations given an exponential decay model</h1>
     
-    <div class="hidden name"><code>profile_linear_model.Rd</code></div>
+    <div class="hidden name"><code>d_coin_multiplicative.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Computes the likelihood for a range of values using a linear coin model</p>
+    <p>Compute probability of observations given an exponential decay model</p>
     </div>
 
-    <pre class="usage"><span class='fu'>profile_linear_model</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>d_coin_multiplicative</span><span class='op'>(</span>
   <span class='va'>nheads</span>,
   <span class='va'>nflips</span>,
-  param_range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>,
-  slope <span class='op'>=</span> <span class='fl'>0.1</span>,
-  number_of_steps <span class='op'>=</span> <span class='fl'>1000</span>,
+  <span class='va'>multiplier</span>,
   log <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  possibilities <span class='op'>=</span> <span class='fu'><a href='get_possibilities.html'>get_possibilities</a></span><span class='op'>(</span><span class='va'>nheads</span>, <span class='va'>nflips</span><span class='op'>)</span>,
   outside_bounds_is_NA <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
@@ -126,37 +125,35 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>nheads</th>
+      <td><p>Number of heads</p></td>
+    </tr>
+    <tr>
       <th>nflips</th>
       <td><p>Total number of flips (heads and tails)</p></td>
     </tr>
     <tr>
-      <th>param_range</th>
-      <td><p>Range of parameters to try</p></td>
+      <th>multiplier</th>
+      <td><p>How much to multiply by each flip</p></td>
     </tr>
     <tr>
-      <th>slope</th>
-      <td><p>How much the probability changes each time the coin is flipped</p></td>
+      <th>log</th>
+      <td><p>If TRUE return log transformed probabilities.</p></td>
     </tr>
     <tr>
-      <th>number_of_steps</th>
-      <td><p>How many values of the parameter to try</p></td>
+      <th>possibilities</th>
+      <td><p>All possible sequences of flips that lead to the observed number of heads</p></td>
+    </tr>
+    <tr>
+      <th>outside_bounds_is_NA</th>
+      <td><p>If TRUE, if any probability of heads is outside the bounds of probability, the function returns NA. Otherwise, it sets the value to the nearer bound.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of likelihoods</p>
+    <p>The likelihood of the data (or log likelihood if log=TRUE)</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>nheads</span> <span class='op'>&lt;-</span> <span class='fl'>8</span>
-<span class='va'>nflips</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>linear_results</span> <span class='op'>&lt;-</span> <span class='fu'>profile_linear_model</span><span class='op'>(</span><span class='va'>nheads</span>, <span class='va'>nflips</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>linear_results</span><span class='op'>$</span><span class='va'>preflip_prob</span>, y<span class='op'>=</span><span class='va'>linear_results</span><span class='op'>$</span><span class='va'>likelihood</span>, type<span class='op'>=</span><span class='st'>"l"</span><span class='op'>)</span>
-</div><div class='input'><span class='va'>dbinom_proportions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from<span class='op'>=</span><span class='fl'>0</span>, to<span class='op'>=</span><span class='fl'>1</span>, length.out<span class='op'>=</span><span class='fl'>1000</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>dbinom_proportions</span>, <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>dbinom</a></span><span class='op'>(</span><span class='va'>nheads</span>, <span class='va'>nflips</span>, <span class='va'>dbinom_proportions</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
-</div><div class='img'><img src='profile_linear_model-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>best_param</span> <span class='op'>&lt;-</span> <span class='va'>linear_results</span><span class='op'>$</span><span class='va'>preflip_prob</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.max</a></span><span class='op'>(</span><span class='va'>linear_results</span><span class='op'>$</span><span class='va'>likelihood</span>, na.rm<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in which.max(linear_results$likelihood, na.rm = TRUE): unused argument (na.rm = TRUE)</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>best_param</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in print(best_param): object 'best_param' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
