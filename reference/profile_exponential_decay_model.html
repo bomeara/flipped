@@ -142,13 +142,16 @@
     <p>vector of likelihoods</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>nheads</span> <span class='op'>&lt;-</span> <span class='fl'>8</span>
-<span class='va'>nflips</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>exp_results</span> <span class='op'>&lt;-</span> <span class='fu'>profile_exponential_decay_model</span><span class='op'>(</span><span class='va'>nheads</span>, <span class='va'>nflips</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>exp_results</span><span class='op'>$</span><span class='va'>preflip_prob</span>, y<span class='op'>=</span><span class='va'>exp_results</span><span class='op'>$</span><span class='va'>likelihood</span>, type<span class='op'>=</span><span class='st'>"l"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in xy.coords(x, y, xlabel, ylabel, log): 'x' and 'y' lengths differ</span></div><div class='input'><span class='va'>best_param</span> <span class='op'>&lt;-</span> <span class='va'>exp_results</span><span class='op'>$</span><span class='va'>halflife</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.max</a></span><span class='op'>(</span><span class='va'>exp_results</span><span class='op'>$</span><span class='va'>likelihood</span>, na.rm<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in which.max(exp_results$likelihood, na.rm = TRUE): unused argument (na.rm = TRUE)</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>best_param</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in print(best_param): object 'best_param' not found</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>nheads</span> <span class='op'>&lt;-</span> <span class='fl'>8</span></span>
+<span class='r-in'><span class='va'>nflips</span> <span class='op'>&lt;-</span> <span class='fl'>10</span></span>
+<span class='r-in'><span class='va'>exp_results</span> <span class='op'>&lt;-</span> <span class='fu'>profile_exponential_decay_model</span><span class='op'>(</span><span class='va'>nheads</span>, <span class='va'>nflips</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>exp_results</span><span class='op'>$</span><span class='va'>preflip_prob</span>, y<span class='op'>=</span><span class='va'>exp_results</span><span class='op'>$</span><span class='va'>likelihood</span>, type<span class='op'>=</span><span class='st'>"l"</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in xy.coords(x, y, xlabel, ylabel, log):</span> 'x' and 'y' lengths differ</span>
+<span class='r-in'><span class='va'>best_param</span> <span class='op'>&lt;-</span> <span class='va'>exp_results</span><span class='op'>$</span><span class='va'>halflife</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.max</a></span><span class='op'>(</span><span class='va'>exp_results</span><span class='op'>$</span><span class='va'>likelihood</span>, na.rm<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in which.max(exp_results$likelihood, na.rm = TRUE):</span> unused argument (na.rm = TRUE)</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>best_param</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(best_param):</span> object 'best_param' not found</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
