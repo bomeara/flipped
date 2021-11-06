@@ -6,7 +6,7 @@
 The goal of flipped is to explore models for coin flippings beyond the
 standard binomial.
 
--   Website: <https://bomeara.github.io/flipped/>
+-   Website: <http://flippedcoin.info/> or <https://bomeara.github.io/flipped/>
 -   Source: <https://github.com/bomeara/flipped/>
 
 ## Installation
